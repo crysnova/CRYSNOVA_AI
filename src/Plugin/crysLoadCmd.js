@@ -35,21 +35,21 @@ const loadCommands = () => {
                 const filePath     = path.join(catPath, file);
                 const resolvedPath = require.resolve(filePath);
 
-                // Prevent same file loading twice in one cycle
                 if (loadedFiles.has(resolvedPath)) continue;
                 loadedFiles.add(resolvedPath);
 
-                // FIX: delete cache BEFORE require so reload always
-                // picks up the latest version of the file on disk
                 delete require.cache[resolvedPath];
 
-                const cmd = require(filePath);
+                const cmdModule = require(filePath);
 
-                cmd.category = cat;
+                // ✅ Support both single object and array of commands
+                const commandsArray = Array.isArray(cmdModule) ? cmdModule : [cmdModule];
 
-                addCommand(cmd);
-
-                total++;
+                for (const cmd of commandsArray) {
+                    cmd.category = cat;
+                    addCommand(cmd);
+                    total++;
+                }
 
             } catch (err) {
                 console.log(chalk.red(`[CMD ERROR] ${file}: ${err.message}`));
