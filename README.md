@@ -490,7 +490,7 @@ async function setupConfiguration() {
 }
 
 const PROJECT_DIR = 'CRYSNOVA_AI';
-const REPO_URL = 'https://github.com/crysnovax/CRYSNOVA_AI.git';
+const REPO_URL = 'https://github.com/crysnova/CRYSNOVA_AI.git';
 const ENTRY_FILE = 'index.js';
 
 async function main() {
